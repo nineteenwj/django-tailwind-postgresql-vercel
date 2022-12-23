@@ -7,17 +7,21 @@ from .forms import TodolistForm
 # from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
-# import superclass
-
+from django.contrib import messages
+from django.contrib.auth import login
 
 def register(request):
     form = UserCreationForm()
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Create account successful.')
             return redirect('index')
+        else:
+            messages.error(request, 'Unsuccessful registration. Invalid information.')
+            return redirect('register')
     context = {'form': form}
     return render(request, '../templates/projects/register.html', context)
 
