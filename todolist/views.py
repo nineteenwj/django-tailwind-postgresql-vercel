@@ -88,7 +88,7 @@ def delete(request, id):
         todo.delete()
         return redirect('index')
     context = {'todo': todo, 'task': task}
-    return render(request, '../templates/projects/delete.html', context)
+    return render(request, '../templates/projects/index.html', context)
 
 
 # def add(request):
